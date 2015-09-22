@@ -1,0 +1,63 @@
+<!--
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<title>wooyun搜索</title>
+<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="static/css/site.min.css" rel="stylesheet">
+</head>
+<body>-->
+{% extends "base.html" %}
+{% block content %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Wooyun搜索</a> </div>
+  
+  </div>
+</div>
+<div class="jumbotron masthead">
+  <div class="container">
+    <h1>Wooyun Search</h1>
+      <div class="row-fluid">
+          <div class = "span12">
+            <form action="/list" method="get"  >
+              <div class="input-group">
+                <input type="text" class="form-control input-lg" id="bug_key" name="bug_key"  placeholder="输入搜索关键词……"/>
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-lg btn-primary"  value="search">搜索</button>
+               </span>
+              </div>
+             </form>
+          </div>
+          <div class = "span12">
+            <p >
+                   <h4>总计收录 {{counts}} 个</h4>
+                </p>
+          </div>
+      </div>
+
+    <!--
+    <div class="row">
+    <button type="submit" class="btn btn-primary" onClick="" value="search">搜索</button>
+    </div>
+    -->
+   
+  </div>
+</div>
+ {% endblock %}
+<!--
+<footer class="footer">
+  <div class="container">
+    <div class="row footer-bottom">
+      <ul class="list-inline text-center">
+        <li><a href="#" target="_blank">Wooyun Search</a></li>
+        <li>Wooyun搜索</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
+-->

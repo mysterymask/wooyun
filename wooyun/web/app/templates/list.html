@@ -1,0 +1,79 @@
+<!--
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link href="static/css/site.min.css" rel="stylesheet">
+  </head>
+
+  <body>-->
+  {% extends "base.html" %}
+  {% block content %}
+     <div class="container">
+        <div class="row-fluid">
+          <div class = "span12">
+            <table sytle="width:100%" class="table">
+              <tr >
+                <td align="left">
+                  <h2>关键字:{{search_params}} | 共计 {{result_count}} 条</h2>    
+                </td>
+                <td align="right"  style=" vertical-align:middle">
+                  <form class="form-search" action="/list" method="get" >
+                    <input class="input-medium search-query" type="text" id = "bug_key" name = "bug_key"/> <button type="submit" class="btn btn-primary">search</button>
+                  </form> 
+                </td>
+              </tr>
+          </table>
+        </div>
+      </div>                          
+      <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+          <tr>
+            <th>公开时间</th>
+            <th>漏洞标题</th>
+            <th>漏洞类型</th>
+            <th>作者</th>
+            <th>编号</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for infor in infors%}
+          <tr>
+            <td style="width:15%">{{infor.open_date}}</td>
+            <td style="width:50%"><a href="static/wooyun_res/htmls/{{infor.bug_id}}.html">{{infor.bug_title}}</a></td>
+            <td style="width:10%">{{infor.bug_type}}</td>
+            <td style="width:10%">{{infor.author}}</td>
+            <td style="width:25%">{{infor.bug_id}}</td>
+          </tr>
+          {% endfor %}
+         
+        </tbody>
+      </table>
+
+      <script src="static/js/bootstrap-paginator.min.js"></script>
+      <script src="static/js/qunit-1.11.0.js"></script>
+       <ul id='paginator'></ul>
+      <script type="text/javascript">
+        $(function(){
+            test("Test bootstrap v3 rendering", function(){
+                options = {
+                    size:"normal",
+                    bootstrapMajorVersion:3,
+                    currentPage: {{page_infor.page_index}},
+                    numberOfPages: {{page_infor.records_per_page}},
+                    totalPages:{{page_infor.page_count}},
+                    onPageClicked:function(event,originalEvent,type,page){
+                        url = "/list?bug_key={{search_params}}&&page="+page;
+                        location.href = url;
+                    }
+                };
+                $('#paginator').bootstrapPaginator(options);
+            })
+        });
+
+    </script>
+    
+      </div>
+    {% endblock %}
