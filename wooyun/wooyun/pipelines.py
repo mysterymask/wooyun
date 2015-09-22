@@ -37,7 +37,7 @@ class WooyunPipeline(object):
             "bug_type" : item['bug_type'],
             "bug_id" : item['bug_id'],
             "author" : item['author'],
-            "html" : filename
+            "html" : "{{url_for('static',filename='wooyun_res/htmls/"+ item['bug_id'] +".html')}}"
         }
         self.__db_collection.insert(post)
         
@@ -55,5 +55,5 @@ class WooyunImagesPipeline(ImagesPipeline):
         if not image_paths:
             raise DropItem("Item contains no images")
         item['image_paths'] = image_paths
-        print image_paths
+        #print image_paths
         return item
