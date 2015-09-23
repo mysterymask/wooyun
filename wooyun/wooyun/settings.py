@@ -22,16 +22,17 @@ ITEM_PIPELINES = {
 IMAGES_STORE = 'web/app/static/wooyun_res/images'
 LOCAL_HTML_STORE = 'web/app/static/wooyun_res/htmls/'
 
-DB_HOST = "172.18.85.121"
+#DB_HOST = "172.18.85.121"
+DB_HOST = '192.168.1.133'
 DB_PORT = 27017
 DB_DATABASE = "wooyun"
 DB_COLLECTION = "wooyun_list"
 
 LOCAL_IMAGES_STORE = '../images/'
-
 LOCAL_CSS_PATH = "../../css/style.css"
 LOCAL_JS_PATH =  "../../js/jquery-1.4.2.min.js"  
-#LOCAL_HTML_PATH = '/home/zhaocs/codes/wooyun/wooyun/web/app/wooyun_res/htmls/'
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'wooyun (+http://www.yourdomain.com)'
+PAGE_MAX_DEFAULT = 0
+LOCAL_STORE_DEFAULT = 'true'
+UPDATE_DEFAULT = 'false'
+RECORDS_PER_PAGE = 20

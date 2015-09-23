@@ -14,10 +14,13 @@ import pymongo
 
 class WooyunPipeline(object):
     def __init__(self):
-        self.__db_connection = pymongo.Connection(DB_HOST,DB_PORT)
+        self.__db_connection = pymongo.MongoClient(DB_HOST,DB_PORT)
         self.__db_database = self.__db_connection[DB_DATABASE]
         #self.__db_database.authenticate('wooyun','wooyun')
         self.__db_collection = self.__db_database[DB_COLLECTION]
+
+    def close_spider(self,spider):
+        self.__db_connection.close()
 
 
     def process_item(self, item, spider):
