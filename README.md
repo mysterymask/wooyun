@@ -15,11 +15,17 @@ Flask</br>
 pymongo</br>
 
 ###2.爬取wooyun公开漏洞
+* 按路径建立文件夹：wooyun/web/app/static/wooyun_res/htmls、wooyun/web/app/static/wooyun_res/images
+* 在wooyun/下运行默认命令：scrapy crawl wooyun，完成所有数据的爬取。有三个参数可控制爬取方式。
+  
+  **-a page_max:**控制爬取页数。0：默认值，表示全部爬取；num：大于0，表示爬取页数。**eg:scrapy crawl -a page_max=2 wooyun** #爬取两页数据(即第一页和第二页)
 
-在wooyun/下运行scrapy crawl wooyun
+  **-a local_store:**控制是否将页面及图片下载至本地。true：默认值，下载页面和图片至本地保存；false：不下载页面和图片，只保存标题等信息及相关链接。 **eg:scrapy crawl -a local_store=true**
+  
+  **-a update:**控制是否为增量更新爬取。false：默认值，非增量更新爬取（全部爬取）；ture：增量爬取，从之前的爬取位置起从后向前爬取。**eg:scrapy crawl -a update=true**
 
-目前是爬取全部信息,后续将增加增量爬取 断点续传等功能
-
+* 爬虫参数保存位置为：wooyun/wooyun/spider/settings.py，可根据需要修改
+* web参数保存位置为：wooyun/web/app/views_py/settings.py
 
 ###3.web信息搜索
 
