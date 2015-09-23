@@ -41,11 +41,11 @@
         <tbody>
           {% for infor in infors%}
           <tr>
-            <td style="width:15%">{{infor.open_date}}</td>
+            <td style="width:11%"><a href="#">{{infor.open_date}}</a></td>
             <td style="width:50%"><a href="static/wooyun_res/htmls/{{infor.bug_id}}.html">{{infor.bug_title}}</a></td>
-            <td style="width:10%">{{infor.bug_type}}</td>
-            <td style="width:10%">{{infor.author}}</td>
-            <td style="width:25%">{{infor.bug_id}}</td>
+            <td style="width:15%"><a href="/list?bug_key={{infor.bug_type}}">{{infor.bug_type}}</a></td>
+            <td style="width:10%"><a href="/list?bug_key={{infor.author}}">{{infor.author}}</a></td>
+            <td style="width:24%"><a href="static/wooyun_res/htmls/{{infor.bug_id}}.html">{{infor.bug_id}}</a></td>
           </tr>
           {% endfor %}
          
