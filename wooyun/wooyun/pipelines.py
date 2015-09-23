@@ -24,15 +24,19 @@ class WooyunPipeline(object):
 
 
     def process_item(self, item, spider):
-        
-        item['html'] = item['html'].replace("/css/style.css?v=201501291909",LOCAL_CSS_PATH).replace("https://static.wooyun.org/static/js/jquery-1.4.2.min.js", LOCAL_JS_PATH)
-        if item['images']:                                              
-            for img_pos in item['images']:
-                item['html'] = item['html'].replace(img_pos['url'],LOCAL_IMAGES_STORE + img_pos['path'])
+        if item['local_store_flag'] == False:
+            html_url = "http://www.wooyun.org/bugs/"+item['bug_id']
+        else:
+            item['html'] = item['html'].replace("/css/style.css?v=201501291909",LOCAL_CSS_PATH).replace("https://static.wooyun.org/static/js/jquery-1.4.2.min.js", LOCAL_JS_PATH)
+            if item['images']:                                              
+                for img_pos in item['images']:
+                    item['html'] = item['html'].replace(img_pos['url'],LOCAL_IMAGES_STORE + img_pos['path'])
        
-        filename = LOCAL_HTML_STORE + item['bug_id'] + '.html'
-        with open(filename,'w') as f:
-        	f.write(item['html'])
+            filename = LOCAL_HTML_STORE + item['bug_id'] + '.html'
+            with open(filename,'w') as f:
+        	    f.write(item['html'])
+            html_url =  "static/wooyun_res/htmls/"+ item['bug_id'] +".html"
+
 
         post = {
             "bug_title" : item['bug_title'],
@@ -40,7 +44,7 @@ class WooyunPipeline(object):
             "bug_type" : item['bug_type'],
             "bug_id" : item['bug_id'],
             "author" : item['author'],
-            "html" : "{{url_for('static',filename='wooyun_res/htmls/"+ item['bug_id'] +".html')}}"
+            "html" : html_url
         }
         self.__db_collection.insert(post)
         
