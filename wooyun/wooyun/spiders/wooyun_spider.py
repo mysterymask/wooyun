@@ -75,7 +75,8 @@ class WooyunSpider(Spider):
         item['open_date'] = sel.xpath("//h3[@class='wybug_open_date']/text()").re("[\d+]{4}-[\d+]{2}-[\d+]{2} [\d+]{2}:[\d+]{2}")[0]
         item['bug_type'] = sel.xpath("//h3[@class='wybug_type']/text()").extract()[0].replace('\t', '').split('：')[1]
         item['bug_id'] = response.url.split('/')[4] 
-        item['author'] =  sel.xpath("//h3[@class='wybug_author']/a/text()").extract() [0]
+        #item['author'] =  sel.xpath("//h3[@class='wybug_author']/a/text()").extract() [0]
+        item['author'] = sel.xpath("//h3[@class='wybug_author']/a/@href").extract()[0].split('/')[4]
         item['html'] = sel.xpath('/*').extract()[0]
         if self.local_store_flag:
             item['image_urls'] = sel.xpath("//img[contains(@src, 'http://static.wooyun.org/wooyun/upload/')]/@src").extract()
