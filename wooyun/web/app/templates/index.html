@@ -10,6 +10,36 @@
 <body>-->
 {% extends "base.html" %}
 {% block content %}
+<script type="text/javascript">
+  function search_bug_action() {  
+    var params = document.getElementById("key_input").value;      
+    var form_tmp = document.createElement("form");
+    form_tmp.action = "/bug_search";
+    form_tmp.method = "get";
+    form_tmp.style.display = "none";
+    var input_tmp = document.createElement("textarea");
+    input_tmp.name = "key_word";
+    input_tmp.value = params;
+    form_tmp.appendChild(input_tmp);           
+    document.body.appendChild(form_tmp);
+    form_tmp.submit();
+  }
+
+  function search_doc_action() {  
+    var params = document.getElementById("key_input").value;      
+    var form_tmp = document.createElement("form");
+    form_tmp.action = "/doc_search";
+    form_tmp.method = "get";
+    form_tmp.style.display = "none";
+    var input_tmp = document.createElement("textarea");
+    input_tmp.name = "key_word";
+    input_tmp.value = params;
+    form_tmp.appendChild(input_tmp);           
+    document.body.appendChild(form_tmp);
+    form_tmp.submit();
+  } 
+  </script>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -22,14 +52,20 @@
     <h1>Wooyun Search</h1>
       <div class="row-fluid">
           <div class = "span12">
-            <form action="/list" method="get"  >
+
+            
               <div class="input-group">
-                <input type="text" class="form-control input-lg" id="bug_key" name="bug_key"  placeholder="输入搜索关键词……"/>
+                <input type="text" class="form-control input-lg"  id = "key_input"   placeholder="输入搜索关键词……"/>
                 <span class="input-group-btn">
-                  <button type="submit" class="btn btn-lg btn-primary"  value="search">搜索</button>
+                  <button type="submit" class="btn btn-lg btn-primary"  value="search" onclick="javascript:search_bug_action()">漏洞搜索</button>
+                  <button type="submit" class="btn btn-primary dropdown-toggle btn-lg" data-toggle="dropdown"> <span class="caret"></span> </button>
+                      <ul class="dropdown-menu" role="menu">
+                      <li><a  type="submit"  href="javascript:search_doc_action()" >资料搜索</a></li>
+                      </ul>
+                      
                </span>
               </div>
-             </form>
+          
           </div>
           <div class = "span12">
             <p >

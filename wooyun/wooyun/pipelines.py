@@ -35,7 +35,7 @@ class WooyunPipeline(object):
             filename = LOCAL_HTML_STORE + item['bug_id'] + '.html'
             with open(filename,'w') as f:
         	    f.write(item['html'])
-            html_url =  "static/wooyun_res/htmls/"+ item['bug_id'] +".html"
+            html_url =  "static/wooyun_res/bugs/htmls/"+ item['bug_id'] +".html"
 
 
         post = {
@@ -44,7 +44,8 @@ class WooyunPipeline(object):
             "bug_type" : item['bug_type'],
             "bug_id" : item['bug_id'],
             "author" : item['author'],
-            "html" : html_url
+            "html" : html_url,
+            "page_content":item['html']
         }
         self.__db_collection.insert(post)
         

@@ -10,14 +10,14 @@ from db_util import *
 from settings import *
 import math
 
-@app.route('/list', methods = ['GET', 'POST']) 
-def list():
+@app.route('/bug_search', methods = ['GET', 'POST']) 
+def bug_search():
     #search_param = request.form['bug_key']
-    search_param = request.args.get('bug_key')
+    search_param = request.args.get('key_word')
     page_ind = int(request.args.get('page',1))
 
     if page_ind <0 : page_ind = 1
-    res_count = get_search_counts(search_param)
+    res_count = get_search_counts(search_param,BUG_COLLECTION_NAME)
    
     num_per_page = NUM_PER_PAGE
     #print "res_count>>>>"+str(res_count)+">>>>"+str(num_per_page)
@@ -27,10 +27,15 @@ def list():
     res = []
     #print "page_ind>>>>"+str(page_ind)+">>>>"+str(pcount)	
     if pcount >0 and page_ind <= pcount:
-      res = search(search_param,page_ind,num_per_page)
-    return render_template("list.html",
+      res = search(search_param,page_ind,num_per_page,BUG_COLLECTION_NAME)
+    return render_template("bug_list.html",
     	search_params=search_param,
     	result_count=res_count,
     	infors = res,
     	page_infor = page_infor
     	)
+
+@app.route('/doc_search', methods = ['GET', 'POST']) 
+def doc_search():
+    pass
+    return render_template("doc_list.html")

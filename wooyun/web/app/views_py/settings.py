@@ -8,7 +8,8 @@ sys.setdefaultencoding('utf-8')
 DB_HOST = '192.168.1.133'
 DB_PORT = 27017
 DB_NAME = 'wooyun'
-COLLECTION_NAME = 'wooyun_list'
+BUG_COLLECTION_NAME = 'wooyun_bug'
+DOC_COLLECTION_NAME = 'wooyun_doc'
 
 #web settings
 NUM_PER_PAGE = 10

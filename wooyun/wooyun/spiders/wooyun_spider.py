@@ -16,7 +16,7 @@ class WooyunSpider(Spider):
     allowed_domains = ["wooyun.org"]
     start_urls=["http://www.wooyun.org/bugs/new_public"]
     #减慢爬取速度
-    download_delay = 0.1
+    #download_delay = 0.1
 
     def __init__(self,page_max=settings['PAGE_MAX_DEFAULT'],local_store=settings['LOCAL_STORE_DEFAULT'],update=settings['UPDATE_DEFAULT'] ):
 
@@ -50,8 +50,8 @@ class WooyunSpider(Spider):
         if self.page_max > 0 and self.update_flag == False:
             page_start = self.page_max
 
-        #for page_index in range(page_start,page_end,-1): 
-        for page_index in range(page_end,page_start): 
+        for page_index in range(1,3): #for test
+        #for page_index in range(page_end,page_start): 
             list_url = response.urljoin(r"/bugs/new_public/page/" + str(page_index))
             yield Request(list_url, callback = self.parse_list)
 
