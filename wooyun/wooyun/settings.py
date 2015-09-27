@@ -19,18 +19,20 @@ ITEM_PIPELINES = {
     'scrapy.contrib.pipeline.images.ImagesPipeline': 1
 }
 
-IMAGES_STORE = 'web/app/static/wooyun_res/bugs/images'
-LOCAL_HTML_STORE = 'web/app/static/wooyun_res/bugs/htmls/'
+IMAGES_STORE = 'web/app/static/wooyun_res/images'
+LOCAL_HTML_STORE = 'web/app/static/wooyun_res/htmls/'
+
 
 #DB_HOST = "172.18.85.121"
 DB_HOST = '192.168.1.133'
 DB_PORT = 27017
 DB_DATABASE = "wooyun"
-DB_COLLECTION = "wooyun_bug"
+DB_COLLECTION_BUG = "wooyun_bug"
+DB_COLLECTION_DOC = "wooyun_doc"
 
 LOCAL_IMAGES_STORE = '../images/'
-LOCAL_CSS_PATH = "../../../css/style.css"
-LOCAL_JS_PATH =  "../../../js/jquery-1.4.2.min.js"  
+LOCAL_CSS_PATH = "../../css/style.css"
+LOCAL_JS_PATH =  "../../js/jquery-1.4.2.min.js"  
 
 PAGE_MAX_DEFAULT  = 0
 LOCAL_STORE_DEFAULT = 'true'

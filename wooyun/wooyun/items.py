@@ -23,4 +23,5 @@ class WooyunItem(scrapy.Item):
     image_urls = scrapy.Field()  #图片路径
     images = scrapy.Field() #已下载的图片
 
+    content_type = scrapy.Field()
     local_store_flag = scrapy.Field()

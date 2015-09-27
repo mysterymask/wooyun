@@ -17,17 +17,28 @@ class WooyunPipeline(object):
         self.__db_connection = pymongo.MongoClient(DB_HOST,DB_PORT)
         self.__db_database = self.__db_connection[DB_DATABASE]
         #self.__db_database.authenticate('wooyun','wooyun')
-        self.__db_collection = self.__db_database[DB_COLLECTION]
+        #self.__db_collection = self.__db_database[DB_COLLECTION_BUG]
 
     def close_spider(self,spider):
         self.__db_connection.close()
 
 
     def process_item(self, item, spider):
+        if item['content_type'] == 'wooyun_bug':
+            self.__db_collection = self.__db_database[DB_COLLECTION_BUG]
+            item['html'] = item['html'].replace("/css/style.css?v=201501291909",LOCAL_CSS_PATH)\
+            .replace("https://static.wooyun.org/static/js/jquery-1.4.2.min.js", LOCAL_JS_PATH)
+        elif item['content_type'] == 'wooyun_doc':
+            self.__db_collection = self.__db_database[DB_COLLECTION_DOC]
+            item['html'] = item['html'].replace("http://wooyun.b0.upaiyun.com/static/css/bootstrap.min.css","../../static/css/bootstrap.min.css")\
+            .replace("http://wooyun.b0.upaiyun.com/static/css/95e46879.main.css","../../static/css/95e46879.main.css")\
+            .replace("http://wooyun.b0.upaiyun.com/static/js/jquery.min.js", "../../static/js/jquery-1.4.2.min.js" )\
+            .replace("http://wooyun.b0.upaiyun.com/static/js/bootstrap.min.js","../../static/js/bootstrap.min.js" )
+
+
         if item['local_store_flag'] == False:
             html_url = "http://www.wooyun.org/bugs/"+item['bug_id']
         else:
-            item['html'] = item['html'].replace("/css/style.css?v=201501291909",LOCAL_CSS_PATH).replace("https://static.wooyun.org/static/js/jquery-1.4.2.min.js", LOCAL_JS_PATH)
             if item['images']:                                              
                 for img_pos in item['images']:
                     item['html'] = item['html'].replace(img_pos['url'],LOCAL_IMAGES_STORE + img_pos['path'])
@@ -35,7 +46,7 @@ class WooyunPipeline(object):
             filename = LOCAL_HTML_STORE + item['bug_id'] + '.html'
             with open(filename,'w') as f:
         	    f.write(item['html'])
-            html_url =  "static/wooyun_res/bugs/htmls/"+ item['bug_id'] +".html"
+            html_url =  "static/wooyun_res/htmls/"+ item['bug_id'] +".html"
 
 
         post = {

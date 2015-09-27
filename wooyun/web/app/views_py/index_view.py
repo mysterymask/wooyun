@@ -8,6 +8,8 @@ from db_util import *
 @app.route('/') 
 @app.route('/index')
 def index():
-    cous = get_all_counts("wooyun_bug")
+    bug_cous = get_all_counts("wooyun_bug")
+    doc_cous = get_all_counts("wooyun_doc")
     return render_template("index.html",
-    	counts = cous)
+    	bug_counts = bug_cous,
+    	doc_counts = doc_cous)

@@ -20,8 +20,8 @@
                   <h2>关键字:{{search_params}} | 共计 {{result_count}} 条</h2>    
                 </td>
                 <td align="right"  style=" vertical-align:middle">
-                  <form class="form-search" action="/list" method="get" >
-                    <input class="input-medium search-query" type="text" id = "bug_key" name = "bug_key"/> <button type="submit" class="btn btn-primary">search</button>
+                  <form class="form-search" action="/doc_search" method="get" >
+                    <input class="input-medium search-query" type="text" name = "key_word"/> <button type="submit" class="btn btn-primary">search</button>
                   </form> 
                 </td>
               </tr>
@@ -43,8 +43,8 @@
           <tr>
             <td style="width:11%"><a href="#">{{infor.open_date}}</a></td>
             <td style="width:50%"><a href="{{infor.html}}">{{infor.bug_title}}</a></td>
-            <td style="width:15%"><a href="/list?bug_key={{infor.bug_type}}">{{infor.bug_type}}</a></td>
-            <td style="width:10%"><a href="/list?bug_key={{infor.author}}">{{infor.author}}</a></td>
+            <td style="width:10%"><a href="/list?bug_key={{infor.bug_type}}">{{infor.bug_type}}</a></td>
+            <td style="width:15%"><a href="/list?bug_key={{infor.author}}">{{infor.author}}</a></td>
             <td style="width:24%"><a href="static/wooyun_res/htmls/{{infor.bug_id}}.html">{{infor.bug_id}}</a></td>
           </tr>
           {% endfor %}
