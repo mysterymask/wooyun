@@ -42,8 +42,8 @@ class WooyunSpider(Spider):
         if self.page_max > 0:
             page_start = min(self.page_max,page_counts)
 
-        for page_index in range(1,2): #for test
-        #for page_index in range(page_end,page_start): 
+        #for page_index in range(1,2): #for test
+        for page_index in range(page_end,page_start): 
             list_url = response.urljoin(r"page/" + str(page_index))
             #print list_url
             yield Request(list_url, callback = self.parse_list)

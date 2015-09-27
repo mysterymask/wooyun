@@ -50,8 +50,8 @@ class WooyunSpider(Spider):
         if self.page_max > 0 and self.update_flag == False:
             page_start = self.page_max
 
-        for page_index in range(1,3): #for test
-        #for page_index in range(page_end,page_start): 
+        #for page_index in range(1,3): #for test
+        for page_index in range(page_end,page_start): 
             list_url = response.urljoin(r"/bugs/new_public/page/" + str(page_index))
             yield Request(list_url, callback = self.parse_list)
 
