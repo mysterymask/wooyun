@@ -43,8 +43,8 @@
           <tr>
             <td style="width:11%"><a href="#">{{infor.open_date}}</a></td>
             <td style="width:50%"><a href="{{infor.html}}">{{infor.bug_title}}</a></td>
-            <td style="width:10%"><a href="/list?bug_key={{infor.bug_type}}">{{infor.bug_type}}</a></td>
-            <td style="width:15%"><a href="/list?bug_key={{infor.author}}">{{infor.author}}</a></td>
+            <td style="width:10%"><a href="/list?key_word={{infor.bug_type}}">{{infor.bug_type}}</a></td>
+            <td style="width:15%"><a href="/list?key_word={{infor.author}}">{{infor.author}}</a></td>
             <td style="width:24%"><a href="static/wooyun_res/htmls/{{infor.bug_id}}.html">{{infor.bug_id}}</a></td>
           </tr>
           {% endfor %}
@@ -65,7 +65,7 @@
                     numberOfPages: {{page_infor.records_per_page}},
                     totalPages:{{page_infor.page_count}},
                     onPageClicked:function(event,originalEvent,type,page){
-                        url = "/list?bug_key={{search_params}}&&page="+page;
+                        url = "/list?key_word={{search_params}}&&page="+page;
                         location.href = url;
                     }
                 };
